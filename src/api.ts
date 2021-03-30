@@ -1,9 +1,12 @@
 import {SelectHTMLAttributes} from '@vue/runtime-dom';
 import axios from 'axios';
 
-
 export interface Config {
-    title: string,
+    title: string;
+    api: ApiConfig;
+}
+
+export interface ApiConfig {
     repoId: string,
     endpoint: string,
 }
@@ -38,16 +41,14 @@ export interface ApiItem<T> {
 }
 
 export class DataApi {
-    endpoint: string;
-    repoId: string;
+    config: ApiConfig;
 
-    constructor(endpoint: string, repoId: string) {
-        this.endpoint = endpoint;
-        this.repoId = repoId;
+    constructor(config: ApiConfig) {
+        this.config = config;
     }
 
     async search(q?: string, page?: number): Promise<ApiPage<SearchItem>> {
-        let r = await axios.get<ApiPage<SearchItem>>(`${this.endpoint}${this.repoId}/search`, {
+        let r = await axios.get<ApiPage<SearchItem>>(`${this.config.endpoint}${this.config.repoId}/search`, {
             params: {
                 q,
                 page
@@ -57,7 +58,12 @@ export class DataApi {
     }
 
     async get(id: string): Promise<SearchItem> {
-        let {data} = await axios.get<ApiItem<SearchItem>>(`${this.endpoint}${id}`)
+        let {data} = await axios.get<ApiItem<SearchItem>>(`${this.config.endpoint}${id}`)
         return data.data;
+    }
+
+    static async config(): Promise<Config> {
+        return axios.get<Config>("config.json")
+            .then(r => r.data)
     }
 }

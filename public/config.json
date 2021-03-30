@@ -1,5 +1,8 @@
 {
   "title": "The Wiener Libray",
-  "repoId": "gb-003348",
-  "endpoint": "https://portal.ehri-project.eu/api/v1/"
+
+  "api": {
+    "repoId": "gb-003348",
+    "endpoint": "https://portal.ehri-project.eu/api/v1/"
+  }
 }

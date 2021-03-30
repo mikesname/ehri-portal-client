@@ -24,15 +24,10 @@ export default defineComponent({
     };
   },
   created() {
-    fetch("config.json")
-        .then(r => r.json())
-        .then(config => {
-          this.config = config;
-          console.debug("Config:", this.config)
-          this.api = new DataApi(this.config.endpoint, this.config.repoId)
-        }).finally(() => {
-          this.loading = false;
-    });
+    DataApi.config().then(config => {
+      this.config = config;
+      this.api = new DataApi(config.api);
+    }).finally(() => this.loading = false);
   }
 })
 </script>

@@ -2,7 +2,7 @@
   <div class="search">
     <div class="search-box">
       <label for="search-q">Search:</label>
-      <input v-model="q" id="search-q" type="search"/>
+      <input v-model.lazy="q" id="search-q" type="search"/>
     </div>
 
     <div class="search-summary">
